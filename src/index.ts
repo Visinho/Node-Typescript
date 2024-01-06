@@ -4,6 +4,10 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
@@ -21,3 +25,8 @@ server.listen(8080, () => {
     console.log("Server running on http://localhost:8080/");
 });
 
+const MONGO_URL = "mongodb+srv://adminadmin:adminadmin@cluster0.0gu2m.mongodb.net/Node-Typescript?retryWrites=true&w=majority";
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGO_URL);
+mongoose.connection.on("error", (error: Error) => console.log(error))
