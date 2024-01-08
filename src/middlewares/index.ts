@@ -18,6 +18,23 @@ export const isAuthenticated = async(req: express.Request, res: express.Response
          merge(req, { identity: existingUser })
          return next();
     } catch (error) {
-        
+        return res.sendStatus(400);
+    }
+}
+
+export const IsOwner = async(req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const { id } = req.params;
+        const currentUserId = get(req, "identity._id") as string;
+
+        if(!currentUserId) {
+            return res.sendStatus(403);
+        }
+        if(currentUserId.toString() !== id) {
+            return res.sendStatus(403);
+        }
+        next();
+    } catch (error) {
+        return res.sendStatus(400);
     }
 }
